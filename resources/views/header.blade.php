@@ -1,25 +1,72 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<?php 
+use App\Http\Controllers\ProductController;
+$total_cart=0;
+if(Session::has('user'))
+{
+  $total_cart= ProductController::CartItem();
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar slider-texts">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">E-Commerce</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Orders</a>
-        </li>
-      
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-        <a class="nav-link active" aria-current="page" href="#">Cart(0)</a>
-      </form>
-     
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">BD Online Market</a>
+      <a class="navbar-brand" href="/">Home</a>
+      <a class="navbar-brand" href="/my_orders_list">Orders List</a>
     </div>
+
+    <form class="navbar-form" action="/search">
+      <div class="form-group">
+        <input type="text" name="query" class="form-control search-box" placeholder="Search" name="search">
+      </div>
+      <button type="submit" class="btn btn-default">Search</button>
+    </form>
+
+    <div class="navbar-header float-end">
+      <a href="/cartlist" class="navbar-brand"> Cart({{$total_cart}})</a>
+    </div>
+    <!-- @if(Session::has('user'))
+    <div class="dropdown">
+    <button class=" dropdown-toggle" type="button" id="dropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    {{Session::get('user')['name']}}
+  </button>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+    <button class="dropdown-item" type="button">Logout</button>
   </div>
+  </div>
+      @else
+      <a href="/login" class="">Login</a>
+      @endif
+  </div> -->
+  @if(Session::has('user'))
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  {{Session::get('user')['name']}}
+  <!-- Login user show korabe ai code dara -->
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/logout">Logout</a></li>
+  </ul>
+</div>
+@else
+  <a href="/login" class="navbar-brand">Login</a>
+  <a href="/register" class="navbar-brand">Register</a>
+@endif
 </nav>
+
+</body>
+</html>
